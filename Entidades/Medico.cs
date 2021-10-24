@@ -14,9 +14,12 @@ namespace Entidades
         public int NroMatricula { get; set; }
         public int IdEspecialidad { get; set; }
 
-        public Medico()
+        public Medico(string nombre, string apellido, int nroMatricula, int idEspecialidad)
         {
-
+            Nombre = nombre;
+            Apellido = apellido;
+            NroMatricula = nroMatricula;
+            IdEspecialidad = idEspecialidad;
         }
     }
 }

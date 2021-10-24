@@ -10,5 +10,10 @@ namespace Entidades
     {
         public int Id { get; set; }
         public string Nombre { get; set; }
+
+        public Especialidad(string nombre)
+        {
+            Nombre = nombre;
+        }
     }
 }
