@@ -28,14 +28,31 @@ namespace Datos
 
         public static DataTable TraerUno(int id)
         {
-            //TODO TraerUno(id)
-            return null;
+            string querySql = "SELECT Id,Nombre,Apellido,NroMatricula,EspecialidadId FROM dbo.Medico WHERE Id = @Id";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(querySql, AdminDB.ConectarBase());
+
+            adapter.SelectCommand.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "Medico");
+
+
+            return ds.Tables["Medico"];
         }
 
         public static int Crear(Especialidad especialidad)
         {
-            //TODO Crear(especialidad)
-            return 0;
+            string querySql = "INSERT INTO dbo.Especialidad (Nombre) VALUES (@Nombre)";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(querySql, AdminDB.ConectarBase());
+
+
+            adapter.SelectCommand.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value = especialidad.Nombre;
+
+            int filasAfectadas = adapter.SelectCommand.ExecuteNonQuery();
+
+            return filasAfectadas;
         }
     }
 }
