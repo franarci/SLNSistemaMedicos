@@ -1,7 +1,9 @@
-﻿using Entidades;
+﻿using Datos.Servidor;
+using Entidades;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +14,16 @@ namespace Datos
     {
         public static DataTable Listar()
         {
-            //TODO Listar()
-            return null;
+            string consulta = "select Id, Nombre from dbo.Especialidad";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(consulta, AdminDB.ConectarBase());
+
+            DataSet ds = new DataSet();
+
+            adapter.Fill(ds, "Especialidad");
+
+            return ds.Tables["Especialidad"];
+
         }
 
         public static DataTable TraerUno(int id)
