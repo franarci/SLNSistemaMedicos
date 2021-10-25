@@ -22,5 +22,13 @@ namespace Entidades
             NroMatricula = nroMatricula;
             EspecialidadId = especialidadId;
         }
+
+        public Medico( string nombre, string apellido, int nroMatricula, int especialidadId)
+        {
+            Nombre = nombre;
+            Apellido = apellido;
+            NroMatricula = nroMatricula;
+            EspecialidadId = especialidadId;
+        }
     }
 }
