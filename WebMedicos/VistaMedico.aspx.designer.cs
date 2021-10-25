@@ -67,13 +67,13 @@ namespace WebMedicos {
         protected global::System.Web.UI.WebControls.TextBox txtFechaNac;
         
         /// <summary>
-        /// Control txtId0.
+        /// Control dropEspecialidad.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtId0;
+        protected global::System.Web.UI.WebControls.DropDownList dropEspecialidad;
         
         /// <summary>
         /// Control txtId.

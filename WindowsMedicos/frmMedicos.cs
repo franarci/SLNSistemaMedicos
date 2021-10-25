@@ -22,7 +22,7 @@ namespace WindowsMedicos
         private void frmMedicos_Load(object sender, EventArgs e)
         {
             MostrarMedicos();
-. compo            LlenarCombo(cbEspecialidadCrear);
+            LlenarCombo(cbEspecialidadCrear);
             
             //uso el metodo llenar combo generico y le agrego una fila [Todas]
             DataTable filtrarEspecialidad = LlenarCombo(cbEspecialidad);
