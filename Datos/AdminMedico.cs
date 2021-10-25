@@ -12,22 +12,53 @@ namespace Datos
 {
     public static class AdminMedico
     {
-        public static List<Medico> Listar()
+        public static List<Medico> Listar()  //Modelo conectado
         {
-            string consulta = "SELECT Nombre,Apellido,NroMatricula,IdEspecialidad FROM dbo.Medico";
-            SqlDataAdapter adapter = new SqlDataAdapter(consulta, AdminDB.ConectarBase());
-            List<Medico> medicos = new List<Medico>()
+            string consulta = "SELECT Id,Nombre,Apellido,NroMatricula,EspecialidadId FROM dbo.Medico";
+
+            SqlCommand comando = new SqlCommand(consulta, AdminDB.ConectarBase());
+            SqlDataReader reader;
+
+            //crear el reader
+            reader = comando.ExecuteReader();
+
+            //Recorrer leer los datos hacia adelante
+            List<Medico> lista = new List<Medico>();
+
+            while (reader.Read())
             {
-                new Medico("Pedro", "Perez", 32, 2),
-                new Medico("Carla", "Arce", 15, 1)
-            };
-            return medicos;
+                lista.Add(
+                    new Medico(
+                        Convert.ToInt32(reader["Id"]),
+                        reader["Nombre"].ToString(),
+                        reader["Apellido"].ToString(),
+                        Convert.ToInt32(reader["NroMatricula"]),
+                        Convert.ToInt32(reader["EspecialidadId"])
+                        ));
+            }
+            AdminDB.ConectarBase().Close();
+            return lista;
         }
 
-        public static DataTable Listar(int idEspecialidad)
+        public static DataTable Listar(int especialidadId)
         {
-            //TODO Listar(idEspecialidad)
-            return null;
+            string consultaSQL = "select Nombre,Apellido,NroMatricula,EspecialidadId from dbo.Medico where EspecialidadId=@EspecialidadId";
+
+            SqlConnection conexion = AdminDB.ConectarBase();
+
+            SqlDataAdapter adapter = new SqlDataAdapter(consultaSQL, conexion);
+
+            
+            adapter.SelectCommand.Parameters.Add("@EspecialidadId", SqlDbType.Int).Value = especialidadId;
+
+           
+            DataSet ds = new DataSet();
+
+            
+            adapter.Fill(ds, "Especialidad");
+
+            return ds.Tables["Especialidad"];
+
         }
 
         public static DataTable TraerUno(int id)
@@ -36,56 +67,6 @@ namespace Datos
             return null;
         }
 
-        public static int Crear(Medico medico)
-        {
-
-
-            string insertSQL = "INSERT dbo.Medico(Nombre,Apellido,NroMatricula, IdEspecialidad) VALUES(@Nombre, @Apellido, @NroMatricula, @IdEspecialidad)";
-
-            SqlCommand command = new SqlCommand(insertSQL, AdminDB.ConectarBase());
-
-            command.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value = medico.Nombre;
-            command.Parameters.Add("@Apellido", SqlDbType.VarChar, 50).Value = medico.Apellido;
-            command.Parameters.Add("@NroMatricula", SqlDbType.Int).Value = medico.NroMatricula;
-            command.Parameters.Add("@IdEspecialidad", SqlDbType.Int).Value = medico.IdEspecialidad;
-
-            //ejecuta el insert
-            int filasAfectadas = command.ExecuteNonQuery();
-
-            AdminDB.ConectarBase().Close();
-            return filasAfectadas;
-        }
-
-        public static int Eliminar(int id)
-        {
-            string consulta = "DELETE FROM dbo.Medico WHERE Id=@Id";
-            SqlCommand command = new SqlCommand(consulta, AdminDB.ConectarBase());
-
-            command.Parameters.Add("@Id", SqlDbType.Int).Value = id;
-
-            //ejecuta el insert
-            int filasAfectadas = command.ExecuteNonQuery();
-
-            AdminDB.ConectarBase().Close();
-            return filasAfectadas;
-        }
-        public static int Modificar(Medico medico)
-        {
-            string consulta = "UPDATE dbo.Medico SET Nombre =@Nombre, Apellido=@Apellido, NroMatricula=@NroMatricula, IdEspecialidad= @IdEspecialidad WHERE Id=@Id";
-            SqlCommand command = new SqlCommand(consulta, AdminDB.ConectarBase());
-
-            command.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value = medico.Nombre;
-            command.Parameters.Add("@Apellido", SqlDbType.VarChar, 50).Value = medico.Apellido;
-            command.Parameters.Add("@IdEspecialidad", SqlDbType.Int).Value = medico.IdEspecialidad;
-            command.Parameters.Add("@NroMatricula", SqlDbType.Int).Value = medico.NroMatricula;
-            command.Parameters.Add("@Id", SqlDbType.Int).Value = medico.Id;
-
-
-            //ejecuta el insert
-            int filasAfectadas = command.ExecuteNonQuery();
-
-            AdminDB.ConectarBase().Close();
-            return filasAfectadas;
-        }
+        
     }
 }
