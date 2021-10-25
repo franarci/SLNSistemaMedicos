@@ -12,14 +12,15 @@ namespace Entidades
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public int NroMatricula { get; set; }
-        public int IdEspecialidad { get; set; }
+        public int EspecialidadId { get; set; }
 
-        public Medico(string nombre, string apellido, int nroMatricula, int idEspecialidad)
+        public Medico(int id, string nombre, string apellido, int nroMatricula, int especialidadId)
         {
+            Id = id;
             Nombre = nombre;
             Apellido = apellido;
             NroMatricula = nroMatricula;
-            IdEspecialidad = idEspecialidad;
+            EspecialidadId = especialidadId;
         }
     }
 }
