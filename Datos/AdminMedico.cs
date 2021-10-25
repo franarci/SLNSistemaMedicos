@@ -42,7 +42,7 @@ namespace Datos
 
         public static DataTable Listar(int especialidadId)
         {
-            string consultaSQL = "select Nombre,Apellido,NroMatricula,EspecialidadId from dbo.Medico where EspecialidadId=@EspecialidadId";
+            string consultaSQL = "select Id,Nombre,Apellido,NroMatricula,EspecialidadId from dbo.Medico where EspecialidadId=@EspecialidadId";
 
             SqlConnection conexion = AdminDB.ConectarBase();
 
@@ -63,8 +63,19 @@ namespace Datos
 
         public static DataTable TraerUno(int id)
         {
-            //TODO TraerUno(id)
-            return null;
+            string querySql = "SELECT Id,Nombre,Apellido,NroMatricula,EspecialidadId FROM dbo.Medico WHERE Id = @Id";
+
+            SqlDataAdapter adapter = new SqlDataAdapter(querySql, AdminDB.ConectarBase());
+
+            //Declarar parametros
+            adapter.SelectCommand.Parameters.Add("@Id", SqlDbType.Int).Value = id;
+
+            //Crear DataSet
+            DataSet ds = new DataSet();
+            adapter.Fill(ds, "idMedico");
+
+
+            return ds.Tables["idMedico"];
         }
 
         
