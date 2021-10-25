@@ -61,6 +61,22 @@ namespace Datos
 
         }
 
+        public static int Crear(Medico medico)
+        {
+            string consulta = "INSERT INTO dbo.Medico(Nombre,Apellido,NroMatricula,EspecialidadId)VALUES(@Nombre ,@Apellido,@Matricula,@Especialidad)";
+            SqlDataAdapter adapter = new SqlDataAdapter(consulta, AdminDB.ConectarBase());
+
+
+            adapter.SelectCommand.Parameters.Add("@Nombre", SqlDbType.VarChar, 50).Value = medico.Nombre;
+            adapter.SelectCommand.Parameters.Add("@Apellido", SqlDbType.VarChar, 50).Value = medico.Apellido;
+            adapter.SelectCommand.Parameters.Add("@Matricula", SqlDbType.Int).Value = medico.NroMatricula;
+            adapter.SelectCommand.Parameters.Add("@Especialidad", SqlDbType.Int, 50).Value = medico.EspecialidadId;
+
+            int filasAfectadas = adapter.SelectCommand.ExecuteNonQuery();
+
+            return filasAfectadas;
+        }
+
         public static DataTable TraerUno(int id)
         {
             string querySql = "SELECT Id,Nombre,Apellido,NroMatricula,EspecialidadId FROM dbo.Medico WHERE Id = @Id";
@@ -72,10 +88,10 @@ namespace Datos
 
             //Crear DataSet
             DataSet ds = new DataSet();
-            adapter.Fill(ds, "idMedico");
+            adapter.Fill(ds, "Medico");
 
 
-            return ds.Tables["idMedico"];
+            return ds.Tables["Medico"];
         }
 
         
